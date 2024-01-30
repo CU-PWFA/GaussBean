@@ -27,7 +27,7 @@ git clone https://github.com/CU-PWFA/GaussBean.git
 Alternatively, you can use the following command, which should work even if you are not a part of the CU-PWFA organization:
 
 ```
-https://github.com/leahghartman/GaussBean
+git clone https://github.com/leahghartman/GaussBean
 ```
 
 Now, from your terminal, navigate to the top level of the directory where GaussBean was cloned (if you run the command "ls -a," you should see a file named "gaussbean.yml"; if you don't see this file, you are not at the top level of the directory) and run the following command:
