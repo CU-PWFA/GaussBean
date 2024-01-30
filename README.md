@@ -50,7 +50,7 @@ Finally, install the gaussbean package using pip:
 pip install gaussbean
 ```
 
-And, you're done!
+And you're done! Have fun! :)
 
 ### Setting up IPython
 
