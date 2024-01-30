@@ -1,10 +1,12 @@
-name: GaussBean
+name: gaussbean
 channels:
     - conda-forge
     - defaults
 dependencies:
-    - numpy=version
-    - scipy=version
-    - opencv=version
-    - matplotlib=version
-    - PIL=version
+    - python=
+    - numpy
+    - scipy
+    - opencv
+    - matplotlib
+    - ipykernel
+    - Pillow
