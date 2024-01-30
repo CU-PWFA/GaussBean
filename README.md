@@ -8,7 +8,7 @@ Before you try to install GaussBean, make sure that you have Anaconda (or some f
 
 Anaconda: https://docs.anaconda.com/free/anaconda/install/index.html \
 Miniconda: https://docs.conda.io/projects/miniconda/en/latest/miniconda-install.html \
-Mamba: https://mamba.readthedocs.io/en/latest/installation/mamba-installation.html \
+Mamba: https://mamba.readthedocs.io/en/latest/installation/mamba-installation.html
 
 If those links don't work, you should be able to just Google "____ installation" and find out how to install any of those distributions.
 
@@ -44,6 +44,6 @@ If you want and example of how to use GaussBean, you can take a look into the "e
 
 If you have questions, there is lots of documentation both in the .py files themselves (inputs, function purposes, comments, etc.) as well as in the example notebook previously mentioned. If you want to raise a concern about code or an issue, you can open an issue on GitHub, or just contact any of the contributors to the package.
 
-* Uninstalling
+### Uninstalling
 
 To uninstall GaussBean, 
