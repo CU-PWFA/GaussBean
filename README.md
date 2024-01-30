@@ -50,7 +50,7 @@ Finally, install the gaussbean package using pip:
 pip install gaussbean
 ```
 
-Once you're done with this step, you can pretty much delete the top level of the folder directory related to this package. Every time you want to do any data analysis with this package, you can just activate the conda/mamba environment, open a Jupyter Notebook, select the "gaussbean" kernel, import gaussbean, and go to town!
+Once you're done with this step, you can pretty much delete the top level of the directory related to this package. Every time you want to do any data analysis with this package, you can just activate the conda/mamba environment, open a Jupyter Notebook, select the "gaussbean" kernel, import gaussbean, and go to town!
 
 And that's it! Have fun! :)
 
