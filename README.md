@@ -38,6 +38,20 @@ conda env create -f gaussbean.yml
 
 This command *should* create a conda (or mamba) environment named "gaussbean". If the environment won't build, you can create your own conda environment and manually install all of the dependencies listed in the "gaussbean.yml" file.
 
+Now, enter the environment that we just created using the command below in the terminal:
+
+```
+conda activate gaussbean
+```
+
+Finally, install the gaussbean package using pip:
+
+```
+pip install gaussbean
+```
+
+And, you're done!
+
 ### Setting up IPython
 
 If you are using JupyterLab, a single Jupyter Notebook, or an application like Spyder, you can use the following command in your terminal to install <ins>ipykernel</ins>, which makes it easier to use our new environment in any of the previously-listed applications:
