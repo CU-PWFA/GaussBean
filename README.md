@@ -44,10 +44,10 @@ Now, enter the environment that we just created using the command below in the t
 conda activate gaussbean
 ```
 
-Finally, install the gaussbean package using pip:
+Finally, install the gaussbean package using pip (note: this is a force-install because issues were occurring with the package not updating even after updating the PyPi package itself):
 
 ```
-pip install gaussbean
+pip install --no-cache-dir --upgrade gaussbean
 ```
 
 Once you're done with this step, you can pretty much delete the top level of the directory related to this package. Every time you want to do any data analysis with this package, you can just activate the conda/mamba environment, open a Jupyter Notebook, select the "gaussbean" kernel, import gaussbean, and go to town!
