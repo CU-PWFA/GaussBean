@@ -68,9 +68,9 @@ Now, when you open (or create) a Jupyter Notebook, it should give you the option
 
 ### Using GaussBean
 
-If you want and example of how to use GaussBean, you can take a look into the "examples" folder in the GitHub repository, where you should find an example Jupyter Notebook that goes through *most* of the functionality of the package.
+If you want an example of how to use GaussBean, you can take a look into the "examples" folder in the GitHub repository, where you should find an example Jupyter Notebook that goes through *most* of the functionality of the package.
 
-If you have questions, there is lots of documentation both in the .py files themselves (inputs, function purposes, comments, etc.) as well as in the example notebook previously mentioned. If you want to raise a concern about code or an issue, you can open an issue on GitHub, or just contact any of the contributors to the package.
+If you have questions, there is lots of documentation in the .py files themselves (inputs, function purposes, comments, etc.), the example notebook previously mentioned, and detailed documentation of each function and everything the package can do on PyPi. If you want to raise a concern about code or an issue, you can open an issue on GitHub, or just contact any of the contributors to the package.
 
 ### Uninstalling
 
