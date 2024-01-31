@@ -2,7 +2,7 @@
 
 ## A *GAUSS*ian *BE*am *AN*alysis repository, originally made for analysis of passive plasma lens data in the CU WARG group.
 
-As mentioned in the (short) description above, this is a *repository* for Gaussian Beam Analysis. All of the functionality seen in the "gaussbean" folder are associated with a package in PyPi that can be installed at the bottom of the instructions in this README. So, this is simply a repository that all the code is stored in and after you clone it to create the needed conda/mamba environment, you can delete everything that was cloned from GitHub and use "pip install" to install the actual package in the environment that you created.
+As mentioned in the (short) description above, this is a *repository* for Gaussian Beam Analysis. All of the functionality seen in the "gaussbean" folder is associated with a package in PyPi that can be installed at the bottom of the instructions in this README. So, this is simply a repository that all the code is stored in and after you clone it to create the needed conda/mamba environment, you can delete everything that was cloned from GitHub and use "pip install" to install the actual package in the environment that you created.
 
 ### Before Installing
 
