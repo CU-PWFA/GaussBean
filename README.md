@@ -16,7 +16,7 @@ If those links don't work, you should be able to just Google "____ installation"
 
 ### Dependencies
 
-There are dependencies needed for GaussBean, but when installing the package itself, all of the necessary dependencies should automatically install if they aren't already on your system.
+There are dependencies needed for GaussBean, but when creating the environment itself, all of the necessary dependencies should automatically install if they aren't already on your system.
 
 ### Installation
 
