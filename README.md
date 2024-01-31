@@ -58,7 +58,7 @@ And that's it! Have fun! :)
 
 ### Setting up IPython
 
-If you are using JupyterLab, a single Jupyter Notebook, or an application like Spyder, you can use the following command in your terminal to install <ins>ipykernel</ins>, which makes it easier to use our new environment in any of the previously-listed applications:
+If you are using JupyterLab, a single Jupyter Notebook, or an application like Spyder, you can use the following command in your terminal to use <ins>ipykernel</ins>, which makes it easier to use our new environment in any of the previously-listed applications:
 
 ```
 python -m ipykernel install --user --name=gaussbean
