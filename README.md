@@ -80,7 +80,7 @@ To uninstall GaussBean, you can delete the conda/mamba environment using the com
 conda remove --name gaussbean --all
 ```
 
-You can also remove all folders and files relating to the GaussBean environment (which you downloaded from this repository), and finally, run
+Remove all folders and files relating to the GaussBean environment (which you cloned from this repository) and finally, run
 
 ```
 pip uninstall gaussbean
