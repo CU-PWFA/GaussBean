@@ -4,6 +4,8 @@
 Created on Fri Jan  26 01:00:00 2024
 
 @author: leahghartman
+
+Description : A file for functions that make images look prettier.
 """
 
 # import random needed packages that should already be installed
@@ -12,6 +14,8 @@ import numpy as np
 import matplotlib.pyplot as plt
 from PIL import Image
 from scipy import ndimage
+
+from calc import check_array
 
 #########################
 ### START OF FUNCTIONS
@@ -59,11 +63,8 @@ def thru_lowpass(imgpath, radius, imgar=[]):
             Array input for the image if isArray is set to TRUE.
     """
     # make the image given at the path into an array
-    if len(imgar) == 0:
-        arrayimage = np.array(Image.open(imgpath).convert('L'))
-    else:
-        arrayimage = imgar
-
+    arrayimage = check_array(origpath, origimgar)
+    
     #perform the fourier transform and save the complex output
     ft = np.fft.fft2(arrayimage, axes=(0,1))
 
@@ -120,48 +121,42 @@ def thru_medandlow(imgpath, mediansize, radius, repeatamount=0):
 
 ########################################################
 
-def plot_medandlow(imgpath, mediansize, radius, repeatamount=0, clmap='plasma', fontsize=15):
-    """ Returns a plot of the original image, the image after ONLY a median filter has been applied, the image after ONLY a low-pass filter has been applied, and
-        the image after BOTH a median filter and low-pass filter have been applied.
+def back_subtract(origpath='', backpath='', origimgar=[], backimgar=[]):
+    """ Returns an image in the form of an array after a background image provided by the user is subtracted from the original image.
 
         Parameters
         ----------
-        imgpath : string
+        imgpath (OPTIONAL) : string
             The path to the image that the user wants to run through the median filter.
-        mediansize : integer
-            The size of the median filter in pixels (generally want this to be small; from 2-10 pixels).
-        radius : integer
-            The radius of the mask used for the low-pass filter in pixels.
-        repeatamount (OPTIONAL) : integer
-            The times the user wants the MEDIAN filter to be run over the image.
-        clmap (OPTIONAL) : string
-            The colormap that the user wants to use for the plots. This MUST be a colormap given by the matplotlib package.
-        fontsize (OPTIONAL) : integer
-            The fontsize used for the title of the plot. The axes labels are automatically formatted based on this number.
+        imgar (OPTIONAL) : array
+            Array of the image if the user wants to input an array into the function rather than just an image path.
     """
-    # get the original image, the image after the median filter, the image after the low-pass filter, and the image after both filters
-    original = np.array(Image.open(imgpath).convert('L'))
-    aftermed = np.array(thru_median(imgpath, radius))
-    afterlow = np.array(thru_lowpass(imgpath, radius))
-    afterboth = np.array(thru_lowpass(aftermed, radius, isArray=True, arimg=aftermed))
+    # set the array of the original image to whatever the user specifies (either based on the image path OR an array that the user inputs)
+    origimg = check_array(origpath, origimgar)
     
-    # create a figure with four subplots, show the images that are found above, and label each of them
-    fig, ((ax1, ax2), (ax3, ax4)) = plt.subplots(2, 2)
-    fig.suptitle('Original Image Compared to Combinations of Filters', fontsize=fontsize, y=1.01)
-    ax1.imshow(original, cmap=clmap)
-    ax1.set_title('Original Image', fontsize=fontsize-3)
-    ax2.imshow(aftermed, cmap=clmap)
-    ax2.set_title('After Median Filter', fontsize=fontsize-3)
-    ax3.imshow(afterlow, cmap=clmap)
-    ax3.set_title('After Low-Pass Filter', fontsize=fontsize-3)
-    ax4.imshow(afterboth, cmap=clmap)
-    ax4.set_title('After Both Filters', fontsize=fontsize-3)
+    # set the array of the original image to whatever the user specifies (either based on the image path OR an array that the user inputs)
+    backimg = check_array(backpath, backimgar)
 
-    # label all x- and y-axes
-    fig.text(0.5, 0.04, 'x pixels', ha='center', fontsize=fontsize-3)
-    fig.text(0.04, 0.5, 'y pixels', va='center', rotation='vertical', fontsize=fontsize-3)
+    # return the array of the image after background subtraction
+    return(origimg - backimg)
 
-    # fix the axes ticks so they only show for outer plots
-    for ax in fig.get_axes():
-        ax.label_outer()
-        
+########################################################
+
+def crop_image(xpoint, ypoint, xmargins, ymargins, imgpath='', imgar=[]):
+    """ Returns an image in the form of an array after being cropped the amount the user specifies around the point that the user specifies.
+
+        Parameters
+        ----------
+        imgpath (OPTIONAL) : string
+            The path to the image that the user wants to run through the median filter.
+        imgar (OPTIONAL) : array
+            Array of the image if the user wants to input an array into the function rather than just an image path.
+    """
+    # set the array of the original image to whatever the user specifies (either based on the image path OR an array that the user inputs)
+    arrayimg = check_array(imgpath, imgar)
+
+    # crop the image
+    finalimgar = arrayimg[round(ypoint-ymargins):round(ypoint+ymargins), round(xpoint-xmargins):round(xpoint+xmargins)]
+
+    # return the cropped image array
+    return(finalimgar)

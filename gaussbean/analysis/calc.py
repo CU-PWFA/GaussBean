@@ -4,6 +4,8 @@
 Created on Fri Jan  26 01:00:00 2024
 
 @author: leahghartman
+
+Description : A file for functions used by single image and full dataset analysis.
 """
 
 # import random needed packages that should already be installed
@@ -149,62 +151,3 @@ def find_line_y(ypixel, imgpath='', imgar=[], toavg=0):
 
     # return the total projection of all of the lineouts
     return(np.array(lineoutar).sum(axis=0))
-
-########################################################
-
-def sum_intensity_prof(imgpath='', imgar=[], lineout=False, xpixel=0, ypixel=0, toavg=0):
-    """ Returns the lineout of an image along the y-axis and averages multiple columns of pixels if the user wants.
-
-        Parameters
-        ----------
-        xpixel : integer
-            Specifies at what ROW the user wants to take the lineout along the image in pixels.
-        imgpath (OPTIONAL) : string
-            The path to the image that the user wants to run through the median filter.
-        imgar (OPTIONAL) : array
-            Array of the image if the user wants to input an array into the function rather than just an image path.
-        toavg (OPTIONAL) : integer
-            Specifies the number of pixels on EACH SIDE of the original pixel lineout the user wants to average with (so, center lineout, plus two lineouts on
-            either side if "toavg" is set equal to 2.
-    """
-    # set the array of the image to whatever the user specifies (either based on the image path OR an array that the user inputs)
-    arrayimg = check_array(imgpath, imgar)
-
-    # find the width and height of the image
-    imheight, imwidth = np.shape(arrayimg)
-
-    # create a numpy array so the axes will actually work on the right-hand-side graph (this isn't necessary on the top graph)
-    positionsy = np.arange(1, imheight + 1, 1)
-    positionsx = np.arange(1, imwidth + 1, 1)
-
-    # customize the plots/plot as a whole (that is literally all that these lines of code do)
-    fig, main_ax = plt.subplots(figsize=(7, 7))
-    divider = make_axes_locatable(main_ax)
-    top_ax = divider.append_axes("top", 1.05, pad=0.3, sharex=main_ax)
-    right_ax = divider.append_axes("right", 1.05, pad=0.3, sharey=main_ax)
-
-    # make the tick labels on the bottom sides of the top- and right-hand-side graphs disappear
-    top_ax.xaxis.set_tick_params(labelbottom=False)
-    right_ax.yaxis.set_tick_params(labelleft=False)
-    right_ax.tick_params(labelrotation=-90)
-
-    # give labels to all of the necessary axes and plots themselves (might have to play with the arangement of the right plot's title)
-    main_ax.set_xlabel('x pixels', fontsize=13)
-    main_ax.set_ylabel('y pixels', fontsize=13)
-    top_ax.set_title('Intensity Profile (Projection) of Pixel Columns', fontsize=13)
-    right_ax.set_title('Intensity Profile (Projection) of Pixel Rows', x=1.13, y=-0.05, rotation=-90, fontsize=13)
-
-    # show the image as the main plot
-    main_ax.imshow(arrayimg, extent=[0, imwidth, 0, imheight])
-
-    # calculates the sum of the intensity values of all the pixels in every row and column
-    cols = find_proj_x(imgar=arrayimg)
-    rows = find_proj_y(imgar=arrayimg)
-
-    # plots the right and top graphs with certain colors. If you want a different color, just change the 'color' input below
-    v_prof, = right_ax.plot(rows, positionsy, color='black')
-    h_prof, = top_ax.plot(cols, color='black')
-
-    # show the entire figure
-    plt.autoscale()
-    plt.show()
