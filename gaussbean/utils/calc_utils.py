@@ -1,13 +1,12 @@
 #!/usr/bin/env python3
-# -*- coding: utf-8 -*-
+# -*- coding: UTF-8 -*-
 """
 Created on Fri Jan  26 01:00:00 2024
 
 @author: leahghartman
 
-Description : A file for functions used by single image and full dataset analysis.
+Description : A file for calculations/functions used in both single-image and full-dataset analysis.
 """
-
 # import random needed packages that should already be installed
 import numpy as np
 import matplotlib.pyplot as plt
@@ -19,7 +18,8 @@ from mpl_toolkits.axes_grid1 import make_axes_locatable
 #########################
 
 def check_array(imgpath, imgar):
-    """ Returns the image path or the array of the image based on what the user has input into the function that's calling check_array().
+    """ Returns the image path or the array of the image based on what the user has input into the function that's calling check_array(). This function shouldn't be
+    called by the user at any point.
 
         Parameters
         ----------
@@ -94,20 +94,21 @@ def find_proj_y(imgpath='', imgar=[]):
 
 ########################################################
 
-def find_line_x(xpixel, imgpath='', imgar=[], toavg=0):
+def find_line_x(ypixel, toavg=0, imgpath='', imgar=[]):
     """ Returns the lineout of an image along the x-axis and averages multiple columns of pixels if the user wants.
 
         Parameters
         ----------
-        xpixel : integer
-            Specifies at what COLUMN the user wants to take the lineout along the image in pixels.
+        ypixel : integer
+            Specifies at what ROW the user wants to take the lineout along the image in pixels. If you're going to find an x lineout, you need to specify a y-pixel
+            along which the lineout is going to lie.
+        toavg (OPTIONAL) : integer
+            Specifies the number of pixels on EACH SIDE of the original pixel lineout the user wants to create a projection with (so, center lineout, plus 
+            two lineouts on either side if "toavg" is set equal to 2).
         imgpath (OPTIONAL) : string
             The path to the image that the user wants to run through the median filter.
         imgar (OPTIONAL) : array
             Array of the image if the user wants to input an array into the function rather than just an image path.
-        toavg (OPTIONAL) : integer
-            Specifies the number of pixels on EACH SIDE of the original pixel lineout the user wants to create a projection with (so, center lineout, plus 
-            two lineouts on either side if "toavg" is set equal to 2.
     """
     # set the array of the image to whatever the user specifies (either based on the image path OR an array that the user inputs)
     arrayimg = check_array(imgpath, imgar)
@@ -116,7 +117,7 @@ def find_line_x(xpixel, imgpath='', imgar=[], toavg=0):
     lineoutar = []
     i = -toavg;
     while i <= toavg:
-        lineoutar.append(np.array(arrayimg[xpixel+i, :]))
+        lineoutar.append(np.array(arrayimg[ypixel+i, :]))
         i += 1;
 
     # return the total projection of all of the lineouts
@@ -124,20 +125,21 @@ def find_line_x(xpixel, imgpath='', imgar=[], toavg=0):
 
 ########################################################
 
-def find_line_y(ypixel, imgpath='', imgar=[], toavg=0):
-    """ Returns the lineout of an image along the y-axis and averages multiple columns of pixels if the user wants.
+def find_line_y(xpixel, toavg=0, imgpath='', imgar=[]):
+    """ Returns the lineout of an image along the y-axis and averages multiple rows of pixels if the user wants.
 
         Parameters
         ----------
-        ypixel : integer
-            Specifies at what ROW the user wants to take the lineout along the image in pixels.
+        xpixel : integer
+            Specifies at what COLUMN the user wants to take the lineout along the image in pixels. If you're going to find a y lineout, you need to specify an 
+            x-pixel along which the lineout is going to lie.
+        toavg (OPTIONAL) : integer
+            Specifies the number of pixels on EACH SIDE of the original pixel lineout the user wants to average with (so, center lineout, plus two lineouts on
+            either side if "toavg" is set equal to 2).
         imgpath (OPTIONAL) : string
             The path to the image that the user wants to run through the median filter.
         imgar (OPTIONAL) : array
             Array of the image if the user wants to input an array into the function rather than just an image path.
-        toavg (OPTIONAL) : integer
-            Specifies the number of pixels on EACH SIDE of the original pixel lineout the user wants to average with (so, center lineout, plus two lineouts on
-            either side if "toavg" is set equal to 2.
     """
     # set the array of the image to whatever the user specifies (either based on the image path OR an array that the user inputs)
     arrayimg = check_array(imgpath, imgar)
@@ -146,7 +148,7 @@ def find_line_y(ypixel, imgpath='', imgar=[], toavg=0):
     lineoutar = []
     i = -toavg;
     while i <= toavg:
-        lineoutar.append(np.array(arrayimg[:, ypixel+i]))
+        lineoutar.append(np.array(arrayimg[:, xpixel+i]))
         i += 1;
 
     # return the total projection of all of the lineouts
