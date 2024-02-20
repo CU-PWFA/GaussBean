@@ -9,54 +9,32 @@ Description : A file containing functions capable of analyzing a single image in
 """
 # import random needed packages that should already be installed
 import sys
-import numpy as np
-import matplotlib.pyplot as plt
-from PIL import Image
-from scipy.signal import peak_widths, find_peaks
 
 # make sure we can get modules from the other directory
 sys.path.append('../utils/')
 
 # import from other modules in the package
 from pre_utils import crop_image
-from calc_utils import check_array, find_centroid, find_proj_x, find_proj_y, find_line_x, find_line_y
+from calc_utils import check_array, find_FWHM, find_centroid, find_proj_x, find_proj_y, find_line_x, find_line_y
 
 #########################
 ### START OF FUNCTIONS
 #########################
 
-def find_FWHM(imgdata):
-    """ Returns the Full-Width at Half-Maximum of a set of data. This function uses the most prominent peak to find the FWHM.
-
-        Parameters
-        ----------
-        imgdata : array
-            Data corresponding to a singular axis or a set of data that the user wants to find the FWHM of using the most prominent peak in the data.
-    """
-    # find the most prominent peak
-    peakmax = np.max(imgdata)
-
-    # use the maximum value (coresponding to the most prominent peak) to find the peak of the curve to find the FWHM of
-    peaks, _ = find_peaks(imgdata, prominence=(peakmax/1.1, peakmax))
-
-    # find the width (FWHM) of the most prominent peak
-    results_half = peak_widths(imgdata, peaks, rel_height=0.5)
-
-    # return the FWHM calculation
-    return(results_half[0])
-
-########################################################
-
 def single_image_proj(xmargins, ymargins, imgpath='', imgar=[]):
-    """ Returns the image path or the array of the image based on what the user has input into the function that's calling check_array(). This function shouldn't be
-    called by the user at any point.
+    """ Runs a data analysis algorithm on a single image. Returns the FWHM in both transverse dimensions (across the image) as well as the cropped image for
+    diagnostic, GIF, or movie purposes.
 
         Parameters
         ----------
-        imgpath : string
+        xmargins : integer
+            A number (in pixels) of how far in the x-direction, on either side of the cropping point, the user wants the image to be cropped.
+        ymargins : integer
+            A number (in pixels) of how far in the y-direction, on either side of the cropping point, the user wants the image to be cropped.
+        imgpath (OPTIONAL) : string
             The path to the image that the user wants to run through the median filter.
-        imgar : array
-            Array of the image if the user wants to input an array into the function rather than just an image path.
+        imgar (OPTIONAL) : array
+            Rather than a path to the image, one can also use the array of the image.
     """
     # set the array of the image to whatever the user specifies (either based on the image path OR an array that the user inputs)
     arrayimg = check_array(imgpath, imgar)
@@ -84,15 +62,23 @@ def single_image_proj(xmargins, ymargins, imgpath='', imgar=[]):
 
 ########################################################
 
-def single_image_line(xmargins, ymargins, imgpath='', imgar=[]):
+def single_image_line(xmargins, ymargins, xpixel=0, ypixel=0, toavg=0, imgpath='', imgar=[]):
     """ Returns the image path or the array of the image based on what the user has input into the function that's calling check_array(). This function shouldn't be
     called by the user at any point.
 
         Parameters
         ----------
-        imgpath : string
+        xmargins : integer
+            A number (in pixels) of how far in the x-direction, on either side of the cropping point, the user wants the image to be cropped.
+        ymargins : integer
+            A number (in pixels) of how far in the y-direction, on either side of the cropping point, the user wants the image to be cropped.
+        xpixel (OPTIONAL) : integer
+            Specifies at which COLUMN the user wants to take the lineout along the image in pixels.
+        ypixel (OPTIONAL) : integer
+            Specifies at which ROW the user wants to take the lineout along the image in pixels.
+        imgpath (OPTIONAL) : string
             The path to the image that the user wants to run through the median filter.
-        imgar : array
+        imgar (OPTIONAL) : array
             Array of the image if the user wants to input an array into the function rather than just an image path.
     """
     # set the array of the image to whatever the user specifies (either based on the image path OR an array that the user inputs)
@@ -109,12 +95,17 @@ def single_image_line(xmargins, ymargins, imgpath='', imgar=[]):
 
     # find the centroid AGAIN, but more accurately, so we can get a really nicely cropped image
     centx2, centy2 = find_centroid(imgar=finalimg)
+
+    # if statement to see if the user wants to use their own selected lineouts, or if they want to use the centroid
+    if xpixel == 0 & ypixel == 0:
+        xpixel = centx2
+        ypixel = centy2
     
     # use the projection along the y-axis to find the FWHM value for the beam along the y-axis
-    yFWHM = find_FWHM(find_proj_y(imgar=finalimg))[0]
+    yFWHM = find_FWHM(find_line_y(xpixel, toavg=toavg, imgar=finalimg))[0]
     
     # use the projection along the x-axis to find the FWHM value for the beam along the x-axis
-    xFWHM = find_FWHM(find_proj_x(imgar=finalimg))[0]
+    xFWHM = find_FWHM(find_line_x(ypixel, toavg=toavg, imgar=finalimg))[0]
 
     # return the FWHM value for the beam along the x- and y- directions, as well as the final cropped image, which can be used for diagnostic purposes
     return(xFWHM, yFWHM, finalimg)

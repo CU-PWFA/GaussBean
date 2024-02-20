@@ -12,6 +12,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from PIL import Image
 from mpl_toolkits.axes_grid1 import make_axes_locatable
+from scipy.signal import peak_widths, find_peaks
 
 #########################
 ### START OF FUNCTIONS
@@ -34,6 +35,28 @@ def check_array(imgpath, imgar):
     # if the length of the image array isn't zero, the user wants to use an array instead of the image path, so we return the array that was input
     else:
         return(imgar)
+
+########################################################
+
+def find_FWHM(imgdata):
+    """ Returns the Full-Width at Half-Maximum of a set of data. This function uses the most prominent peak to find the FWHM.
+
+        Parameters
+        ----------
+        imgdata : array
+            Data corresponding to a singular axis or a set of data that the user wants to find the FWHM of using the most prominent peak in the data.
+    """
+    # find the most prominent peak
+    peakmax = np.max(imgdata)
+
+    # use the maximum value (coresponding to the most prominent peak) to find the peak of the curve to find the FWHM of
+    peaks, _ = find_peaks(imgdata, prominence=(peakmax/1.1, peakmax))
+
+    # find the width (FWHM) of the most prominent peak
+    results_half = peak_widths(imgdata, peaks, rel_height=0.5)
+
+    # return the FWHM calculation
+    return(results_half[0])
 
 ########################################################
 
