@@ -1,6 +1,6 @@
 from setuptools import setup, find_packages
 
-VERSION = '1.0.0' 
+VERSION = '1.0.3' 
 DESCRIPTION = 'GAUSSian BEam ANalysis package'
 
 # Setting up the package
