@@ -164,7 +164,7 @@ def plot_medandlow(mediansize, radius, repeatamount=0, imgpath='', imgar=[], clm
 
 ########################################################
 
-def plot_cropped(xpoint, ypoint, xmargins, ymargins, imgpath='', imgar=[]):
+def plot_cropped(xpoint, ypoint, xmargins, ymargins, imgpath='', imgar=[], clmap='plasma', fontsize=15):
     """ Returns a plot of the image before and after it's been cropped.
 
         Parameters
@@ -219,7 +219,7 @@ def back_sub_plot(origpath='', backpath='', origimgar=[], backimgar=[], clmap='p
 
 ########################################################
 
-def plot_intensity_proj(imgpath='', imgar=[]):
+def plot_intensity_proj(imgpath='', imgar=[], clmap='plasma', fontsize=15):
     """ Returns a plot of the image with PROJECTIONS of the intensity on each axis.
 
         Parameters
@@ -251,13 +251,13 @@ def plot_intensity_proj(imgpath='', imgar=[]):
     right_ax.tick_params(labelrotation=-90)
 
     # give labels to all of the necessary axes and plots themselves (might have to play with the arangement of the right plot's title)
-    main_ax.set_xlabel('x pixels', fontsize=13)
-    main_ax.set_ylabel('y pixels', fontsize=13)
-    top_ax.set_title('Intensity Profile (Projection) of Pixel Columns', fontsize=13)
-    right_ax.set_title('Intensity Profile (Projection) of Pixel Rows', x=1.13, y=-0.05, rotation=-90, fontsize=13)
+    main_ax.set_xlabel('x pixels', fontsize=fontsize)
+    main_ax.set_ylabel('y pixels', fontsize=fontsize)
+    top_ax.set_title('Intensity Profile (Projection) of Pixel Columns', fontsize=fontsize)
+    right_ax.set_title('Intensity Profile (Projection) of Pixel Rows', x=1.13, y=-0.05, rotation=-90, fontsize=fontsize)
 
     # show the image as the main plot
-    main_ax.imshow(arrayimg, extent=[0, imwidth, imheight, 0])
+    main_ax.imshow(arrayimg, cmap=clmap, extent=[0, imwidth, imheight, 0])
 
     # calculates the sum of the intensity values of all the pixels in every row and column
     cols = calc_utils.find_proj_x(imgar=arrayimg)
@@ -273,7 +273,7 @@ def plot_intensity_proj(imgpath='', imgar=[]):
 
 ########################################################
 
-def plot_intensity_line(xpixel, ypixel, toavg=0, imgpath='', imgar=[]):
+def plot_intensity_line(xpixel, ypixel, toavg=0, imgpath='', imgar=[], clmap='plasma', fontsize=15):
     """ Returns a plot of the image with LINEOUTS of the intensity on each axis. The location of the lineouts are specified by the user.
 
         Parameters
@@ -312,13 +312,13 @@ def plot_intensity_line(xpixel, ypixel, toavg=0, imgpath='', imgar=[]):
     right_ax.tick_params(labelrotation=-90)
 
     # give labels to all of the necessary axes and plots themselves (might have to play with the arangement of the right plot's title)
-    main_ax.set_xlabel('x pixels', fontsize=13)
-    main_ax.set_ylabel('y pixels', fontsize=13)
-    top_ax.set_title('Intensity Profile (Projection) of Pixel Columns', fontsize=13)
-    right_ax.set_title('Intensity Profile (Projection) of Pixel Rows', x=1.13, y=-0.05, rotation=-90, fontsize=13)
+    main_ax.set_xlabel('x pixels', fontsize=fontsize)
+    main_ax.set_ylabel('y pixels', fontsize=fontsize)
+    top_ax.set_title('Intensity Profile (Projection) of Pixel Columns', fontsize=fontsize)
+    right_ax.set_title('Intensity Profile (Projection) of Pixel Rows', x=1.13, y=-0.05, rotation=-90, fontsize=fontsize)
 
     # show the image as the main plot
-    main_ax.imshow(arrayimg, extent=[0, imwidth, imheight, 0])
+    main_ax.imshow(arrayimg, cmap=clmap, extent=[0, imwidth, imheight, 0])
 
     # calculates the sum of the intensity values of all the pixels in every row and column
     cols = calc_utils.find_line_x(ypixel, toavg=toavg, imgar=arrayimg)
