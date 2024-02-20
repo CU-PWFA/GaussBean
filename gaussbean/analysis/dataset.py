@@ -12,7 +12,7 @@ import numpy as np
 from PIL import Image
 
 # import from other modules in the package
-from single import single_image_proj, single_image_line
+from gaussbean.analysis import single
 
 #########################
 ### START OF FUNCTIONS
@@ -44,7 +44,7 @@ def full_set(imglist, xmargins, ymargins, pixelsize=3.45, xpixel=0, ypixel=0):
         # for loop that cycles through all of the images and finds the FWHM along each axis (using PROJECTIONS)
         for i in imglist:
             # find the FWHM in both transverse dimensions as well as the cropped images used for processing
-            xFWHM, yFWHM, croppedimg = single_image_proj(xmargins, ymargins, imgar=np.array(Image.open(i)))
+            xFWHM, yFWHM, croppedimg = single.single_image_proj(xmargins, ymargins, imgar=np.array(Image.open(i)))
 
             # append everything to their respective empty lists
             croppedimgs.append(croppedimg)
@@ -55,7 +55,7 @@ def full_set(imglist, xmargins, ymargins, pixelsize=3.45, xpixel=0, ypixel=0):
          # for loop that cycles through all of the images and finds the FWHM along each axis (using LINEOUTS)
         for i in imglist:
             # find the FWHM in both transverse dimensions as well as the cropped images used for processing
-            xFWHM, yFWHM, croppedimg = single_image_line(xmargins, ymargins, xpixel=xpixel, ypixel=ypixel, imgar=np.array(Image.open(i)));
+            xFWHM, yFWHM, croppedimg = single.single_image_line(xmargins, ymargins, xpixel=xpixel, ypixel=ypixel, imgar=np.array(Image.open(i)));
 
             # append everything to their respective empty lists
             croppedimgs.append(croppedimg)

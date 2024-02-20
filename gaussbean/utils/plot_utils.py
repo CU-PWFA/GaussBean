@@ -15,8 +15,7 @@ from PIL import Image
 from mpl_toolkits.axes_grid1 import make_axes_locatable
 
 # import from other modules in the package
-from pre_utils import thru_median, thru_lowpass, crop_image
-from calc_utils import check_array, find_proj_x, find_proj_y, find_line_x, find_line_y
+from gaussbean.utils import pre_utils, calc_utils
 
 #########################
 ### START OF FUNCTIONS
@@ -75,11 +74,11 @@ def plot_median(mediansize, repeatamount=0, imgpath='', imgar=[], clmap='plasma'
             The fontsize used for the title of the plot. The axes labels are automatically formatted based on this number.
     """
     # set the array of the image to whatever the user specifies (either based on the image path OR an array that the user inputs)
-    arrayimg = check_array(imgpath, imgar)
+    arrayimg = calc_utils.check_array(imgpath, imgar)
     
     # get the image before the median filter is applied and after the filter is applied
     before = arrayimg
-    after = thru_median(mediansize, repeatamount=repeatamount, imgar=arrayimg)
+    after = pre_utils.thru_median(mediansize, repeatamount=repeatamount, imgar=arrayimg)
 
     # plot before and after
     plot_beforeandafter(before, after, label='Median Filter', clmap='plasma', fontsize=fontsize)
@@ -103,11 +102,11 @@ def plot_lowpass(radius, imgpath='', imgar=[], clmap='plasma', fontsize=15):
             The fontsize used for the title of the plot. The axes labels are automatically formatted based on this number.
     """
     # set the array of the image to whatever the user specifies (either based on the image path OR an array that the user inputs)
-    arrayimg = check_array(imgpath, imgar)
+    arrayimg = calc_utils.check_array(imgpath, imgar)
     
     # get the image before the low-pass filter is applied and after the filter is applied
     before = arrayimg
-    after = thru_lowpass(radius, imgar=arrayimg)
+    after = pre_utils.thru_lowpass(radius, imgar=arrayimg)
 
     # plot before and after
     plot_beforeandafter(before, after, label='Low-Pass Filter', clmap='plasma', fontsize=fontsize)
@@ -135,13 +134,13 @@ def plot_medandlow(mediansize, radius, repeatamount=0, imgpath='', imgar=[], clm
             The fontsize used for the title of the plot. The axes labels are automatically formatted based on this number.
     """
     # set the array of the image to whatever the user specifies (either based on the image path OR an array that the user inputs)
-    arrayimg = check_array(imgpath, imgar)
+    arrayimg = calc_utils.check_array(imgpath, imgar)
     
     # get the original image, the image after the median filter, the image after the low-pass filter, and the image after both filters
     original = arrayimg
-    aftermed = thru_median(mediansize, repeatamount=repeatamount, imgar=arrayimg)
-    afterlow = thru_lowpass(radius, imgar=arrayimg)
-    afterboth = thru_lowpass(radius, imgar=aftermed)
+    aftermed = pre_utils.thru_median(mediansize, repeatamount=repeatamount, imgar=arrayimg)
+    afterlow = pre_utils.thru_lowpass(radius, imgar=arrayimg)
+    afterboth = pre_utils.thru_lowpass(radius, imgar=aftermed)
     
     # create a figure with four subplots, show the images that are found above, and label each of them
     fig, ((ax1, ax2), (ax3, ax4)) = plt.subplots(2, 2)
@@ -184,8 +183,8 @@ def plot_cropped(xpoint, ypoint, xmargins, ymargins, imgpath='', imgar=[]):
             Array of the image if the user wants to input an array into the function rather than just an image path.
     """
     # get the array of the image before and after background subtraction
-    before = check_array(imgpath, imagar)
-    after = crop_image(xpoint, ypoint, xmargins, ymargins, imgar=before)
+    before = calc_utils.check_array(imgpath, imagar)
+    after = pre_utils.crop_image(xpoint, ypoint, xmargins, ymargins, imgar=before)
     
     # plot before and after doing background subtraction
     plot_beforeandafter(before, after, title='Cropping', clmap='plasma', fontsize=fontsize)
@@ -211,9 +210,9 @@ def back_sub_plot(origpath='', backpath='', origimgar=[], backimgar=[], clmap='p
             The fontsize used for the title of the plot. The axes labels are automatically formatted based on this number.
     """
     # get the array of the image before and after background subtraction
-    before = check_array(origpath, origimgar)
-    backimg = check_array(backpath, backimgar)
-    after = back_subtract(origimgar=before, backimgar=backimg)
+    before = calc_utils.check_array(origpath, origimgar)
+    backimg = calc_utils.check_array(backpath, backimgar)
+    after = pre_utils.back_subtract(origimgar=before, backimgar=backimg)
     
     # plot before and after doing background subtraction
     plot_beforeandafter(before, after, title='Background Subtraction', clmap=clmap, fontsize=fontsize)
@@ -231,7 +230,7 @@ def plot_intensity_proj(imgpath='', imgar=[]):
             Rather than a path, if the user wants to use an array for the image instead, it's possible.
     """
     # set the array of the image to whatever the user specifies (either based on the image path OR an array that the user inputs)
-    arrayimg = check_array(imgpath, imgar)
+    arrayimg = calc_utils.check_array(imgpath, imgar)
 
     # find the width and height of the image
     imheight, imwidth = np.shape(arrayimg)
@@ -261,8 +260,8 @@ def plot_intensity_proj(imgpath='', imgar=[]):
     main_ax.imshow(arrayimg, extent=[0, imwidth, 0, imheight])
 
     # calculates the sum of the intensity values of all the pixels in every row and column
-    cols = find_proj_x(imgar=arrayimg)
-    rows = find_proj_y(imgar=arrayimg)
+    cols = calc_utils.find_proj_x(imgar=arrayimg)
+    rows = calc_utils.find_proj_y(imgar=arrayimg)
 
     # plots the right and top graphs with certain colors. If you want a different color, just change the 'color' input below
     v_prof, = right_ax.plot(rows, positionsy, color='black')
@@ -292,7 +291,7 @@ def plot_intensity_line(xpixel, ypixel, toavg=0, imgpath='', imgar=[]):
             Rather than a path, if the user wants to use an array for the image instead, it's possible.
     """
     # set the array of the image to whatever the user specifies (either based on the image path OR an array that the user inputs)
-    arrayimg = check_array(imgpath, imgar)
+    arrayimg = calc_utils.check_array(imgpath, imgar)
 
     # find the width and height of the image
     imheight, imwidth = np.shape(arrayimg)
@@ -322,8 +321,8 @@ def plot_intensity_line(xpixel, ypixel, toavg=0, imgpath='', imgar=[]):
     main_ax.imshow(arrayimg, extent=[0, imwidth, imheight, 0])
 
     # calculates the sum of the intensity values of all the pixels in every row and column
-    cols = find_line_x(ypixel, toavg=toavg, imgar=arrayimg)
-    rows = find_line_y(xpixel, toavg=toavg, imgar=arrayimg)
+    cols = calc_utils.find_line_x(ypixel, toavg=toavg, imgar=arrayimg)
+    rows = calc_utils.find_line_y(xpixel, toavg=toavg, imgar=arrayimg)
 
     # plot the lineouts for nice visualization
     main_ax.plot(np.repeat(xpixel, len(arrayimg)), np.linspace(0, len(arrayimg), len(arrayimg)), color='y')

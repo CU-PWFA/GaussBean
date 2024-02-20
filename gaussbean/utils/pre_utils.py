@@ -15,7 +15,7 @@ from PIL import Image
 from scipy import ndimage
 
 # import from other modules in the package
-from calc_utils import check_array
+from gaussbean.utils import calc_utils
 
 #########################
 ### START OF FUNCTIONS
@@ -36,7 +36,7 @@ def thru_median(mediansize, repeatamount=0, imgpath='', imgar=[]):
             Array of the image if the user wants to input an array into the function rather than just an image path.
     """
     # set the array of the image to whatever the user specifies (either based on the image path OR an array that the user inputs)
-    arrayimg = check_array(imgpath, imgar)
+    arrayimg = calc_utils.check_array(imgpath, imgar)
 
     # create an array for the median filter images and append to this array when a change to the image is made
     result = [ndimage.median_filter(np.array(arrayimg), size=mediansize)]
@@ -63,7 +63,7 @@ def thru_lowpass(radius, imgpath='', imgar=[]):
             Array of the image if the user wants to input an array into the function rather than just an image path.
     """
     # set the array of the image to whatever the user specifies (either based on the image path OR an array that the user inputs)
-    arrayimg = check_array(imgpath, imgar)
+    arrayimg = calc_utils.check_array(imgpath, imgar)
     
     # perform the fourier transform and save the complex output
     ft = np.fft.fft2(arrayimg, axes=(0,1))
@@ -112,10 +112,10 @@ def back_subtract(origpath='', backpath='', origimgar=[], backimgar=[]):
             Rather than an image path, one can opt to use an array instead. This is the array of the background image to be used (a blank image).
     """
     # set the array of the original image to whatever the user specifies (either based on the image path OR an array that the user inputs)
-    origimg = check_array(origpath, origimgar)
+    origimg = calc_utils.check_array(origpath, origimgar)
     
     # set the array of the original image to whatever the user specifies (either based on the image path OR an array that the user inputs)
-    backimg = check_array(backpath, backimgar)
+    backimg = calc_utils.check_array(backpath, backimgar)
 
     # return the array of the image after background subtraction
     return(origimg - backimg)
@@ -141,7 +141,7 @@ def crop_image(xpoint, ypoint, xmargins, ymargins, imgpath='', imgar=[]):
             Array of the image if the user wants to input an array into the function rather than just an image path.
     """
     # set the array of the original image to whatever the user specifies (either based on the image path OR an array that the user inputs)
-    arrayimg = check_array(imgpath, imgar)
+    arrayimg = calc_utils.check_array(imgpath, imgar)
 
     # crop the image
     finalimgar = arrayimg[round(ypoint-ymargins):round(ypoint+ymargins), round(xpoint-xmargins):round(xpoint+xmargins)]
