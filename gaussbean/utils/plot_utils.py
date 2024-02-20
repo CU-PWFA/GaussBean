@@ -81,7 +81,7 @@ def plot_median(mediansize, repeatamount=0, imgpath='', imgar=[], clmap='plasma'
     after = pre_utils.thru_median(mediansize, repeatamount=repeatamount, imgar=arrayimg)
 
     # plot before and after
-    plot_beforeandafter(before, after, label='Median Filter', clmap='plasma', fontsize=fontsize)
+    plot_beforeandafter(before, after, label='Median Filter', clmap=clmap, fontsize=fontsize)
 
 ########################################################
 
@@ -109,7 +109,7 @@ def plot_lowpass(radius, imgpath='', imgar=[], clmap='plasma', fontsize=15):
     after = pre_utils.thru_lowpass(radius, imgar=arrayimg)
 
     # plot before and after
-    plot_beforeandafter(before, after, label='Low-Pass Filter', clmap='plasma', fontsize=fontsize)
+    plot_beforeandafter(before, after, label='Low-Pass Filter', clmap=clmap, fontsize=fontsize)
 
 ########################################################
 
@@ -187,7 +187,7 @@ def plot_cropped(xpoint, ypoint, xmargins, ymargins, imgpath='', imgar=[], clmap
     after = pre_utils.crop_image(xpoint, ypoint, xmargins, ymargins, imgar=before)
     
     # plot before and after doing background subtraction
-    plot_beforeandafter(before, after, label='Cropping', clmap='plasma', fontsize=fontsize)
+    plot_beforeandafter(before, after, label='Cropping', clmap=clmap, fontsize=fontsize)
 
 ########################################################
 
@@ -215,7 +215,7 @@ def back_sub_plot(origpath='', backpath='', origimgar=[], backimgar=[], clmap='p
     after = pre_utils.back_subtract(origimgar=before, backimgar=backimg)
     
     # plot before and after doing background subtraction
-    plot_beforeandafter(before, after, label='Background Subtraction', clmap=clmap, fontsize=fontsize)
+    plot_beforeandafter(before, after, label='Back-Sub', clmap=clmap, fontsize=fontsize)
 
 ########################################################
 
