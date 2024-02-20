@@ -51,10 +51,10 @@ def single_image_proj(xmargins, ymargins, imgpath='', imgar=[]):
     centx2, centy2 = calc_utils.find_centroid(imgar=finalimg)
     
     # use the projection along the y-axis to find the FWHM value for the beam along the y-axis
-    yFWHM = calc_utils.find_FWHM(find_proj_y(imgar=finalimg))[0]
+    yFWHM = calc_utils.find_FWHM(calc_utils.find_proj_y(imgar=finalimg))[0]
     
     # use the projection along the x-axis to find the FWHM value for the beam along the x-axis
-    xFWHM = calc_utils.find_FWHM(find_proj_x(imgar=finalimg))[0]
+    xFWHM = calc_utils.find_FWHM(calc_utils.find_proj_x(imgar=finalimg))[0]
 
     # return the FWHM value for the beam along the x- and y- directions, as well as the final cropped image, which can be used for diagnostic purposes
     return(xFWHM, yFWHM, finalimg)
@@ -101,10 +101,10 @@ def single_image_line(xmargins, ymargins, xpixel=0, ypixel=0, toavg=0, imgpath='
         ypixel = centy2
     
     # use the projection along the y-axis to find the FWHM value for the beam along the y-axis
-    yFWHM = calc_utils.find_FWHM(find_line_y(xpixel, toavg=toavg, imgar=finalimg))[0]
+    yFWHM = calc_utils.find_FWHM(calc_utils.find_line_y(xpixel, toavg=toavg, imgar=finalimg))[0]
     
     # use the projection along the x-axis to find the FWHM value for the beam along the x-axis
-    xFWHM = calc_utils.find_FWHM(find_line_x(ypixel, toavg=toavg, imgar=finalimg))[0]
+    xFWHM = calc_utils.find_FWHM(calc_utils.find_line_x(ypixel, toavg=toavg, imgar=finalimg))[0]
 
     # return the FWHM value for the beam along the x- and y- directions, as well as the final cropped image, which can be used for diagnostic purposes
     return(xFWHM, yFWHM, finalimg)
