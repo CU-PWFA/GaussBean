@@ -10,7 +10,6 @@ setup(
         author="Leah Hartman",
         author_email="<leah.ghartman@gmail.com>",
         description=DESCRIPTION,
-        long_description=LONG_DESCRIPTION,
         packages=find_packages(),
         install_requires=[], # add any additional packages needed
         keywords=['python', 'gaussian', 'laser'],
