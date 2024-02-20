@@ -183,11 +183,11 @@ def plot_cropped(xpoint, ypoint, xmargins, ymargins, imgpath='', imgar=[]):
             Array of the image if the user wants to input an array into the function rather than just an image path.
     """
     # get the array of the image before and after background subtraction
-    before = calc_utils.check_array(imgpath, imagar)
+    before = calc_utils.check_array(imgpath, imgar)
     after = pre_utils.crop_image(xpoint, ypoint, xmargins, ymargins, imgar=before)
     
     # plot before and after doing background subtraction
-    plot_beforeandafter(before, after, title='Cropping', clmap='plasma', fontsize=fontsize)
+    plot_beforeandafter(before, after, label='Cropping', clmap='plasma', fontsize=fontsize)
 
 ########################################################
 
@@ -215,7 +215,7 @@ def back_sub_plot(origpath='', backpath='', origimgar=[], backimgar=[], clmap='p
     after = pre_utils.back_subtract(origimgar=before, backimgar=backimg)
     
     # plot before and after doing background subtraction
-    plot_beforeandafter(before, after, title='Background Subtraction', clmap=clmap, fontsize=fontsize)
+    plot_beforeandafter(before, after, label='Background Subtraction', clmap=clmap, fontsize=fontsize)
 
 ########################################################
 
@@ -257,7 +257,7 @@ def plot_intensity_proj(imgpath='', imgar=[]):
     right_ax.set_title('Intensity Profile (Projection) of Pixel Rows', x=1.13, y=-0.05, rotation=-90, fontsize=13)
 
     # show the image as the main plot
-    main_ax.imshow(arrayimg, extent=[0, imwidth, 0, imheight])
+    main_ax.imshow(arrayimg, extent=[0, imwidth, imheight, 0])
 
     # calculates the sum of the intensity values of all the pixels in every row and column
     cols = calc_utils.find_proj_x(imgar=arrayimg)
