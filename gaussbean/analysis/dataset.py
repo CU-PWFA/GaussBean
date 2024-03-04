@@ -75,7 +75,7 @@ def full_set_line(imglist, xmargins, ymargins, xpixel=0, ypixel=0):
     # just run the code in a for loop like normal; if x- and y- pixels are not specified, the code will just automatically use the centroid instead
     for i in imglist:
         # find the FWHM in both transverse dimensions as well as the cropped images used for processing
-        xFWHM, yFWHM, croppedimg = single.sing_image_line(xmargins, ymargins, xpixel=xpixel, ypixel=ypixel, imgar=np.array(Image.open(i)))
+        xFWHM, yFWHM, croppedimg = single.single_image_line(xmargins, ymargins, xpixel=xpixel, ypixel=ypixel, imgar=np.array(Image.open(i)))
 
         # append everything to their respective lists
         croppedimgs.append(croppedimg)
