@@ -43,8 +43,8 @@ def full_set_proj(imglist, xmargins, ymargins):
 
         # append everything to their respective empty lists
         croppedimgs.append(croppedimg)
-        xlist.append(xFWHM * pixelsize)
-        ylist.append(yFWHM * pixelsize)
+        xlist.append(xFWHM)
+        ylist.append(yFWHM)
 
     # return everything we want
     return(xlist, ylist, croppedimgs)
