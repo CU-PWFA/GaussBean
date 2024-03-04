@@ -50,7 +50,7 @@ def find_FWHM(imgdata):
     peakmax = np.max(imgdata)
 
     # use the maximum value (coresponding to the most prominent peak) to find the peak of the curve to find the FWHM of
-    peaks, _ = find_peaks(imgdata, prominence=(peakmax/1.1, peakmax))
+    peaks, _ = find_peaks(imgdata, prominence=(peakmax/1.1, peakmax*1.1))
 
     # find the width (FWHM) of the most prominent peak
     results_half = peak_widths(imgdata, peaks, rel_height=0.5)

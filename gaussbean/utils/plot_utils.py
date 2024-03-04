@@ -187,7 +187,7 @@ def plot_cropped(xpoint, ypoint, xmargins, ymargins, imgpath='', imgar=[], clmap
     after = pre_utils.crop_image(xpoint, ypoint, xmargins, ymargins, imgar=before)
     
     # plot before and after doing background subtraction
-    plot_beforeandafter(before, after, label='Cropping', clmap=clmap, fontsize=fontsize)
+    plot_beforeandafter(before=before, after=after, label='Cropping', clmap=clmap, fontsize=fontsize)
 
 ########################################################
 
