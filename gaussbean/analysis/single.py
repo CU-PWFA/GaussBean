@@ -20,7 +20,7 @@ from gaussbean.utils import pre_utils, calc_utils
 ### START OF FUNCTIONS
 #########################
 
-def single_image_proj(xmargins, ymargins, imgpath='', imgar=[]):
+def single_image_proj(xmargins, ymargins, fwrange=1.3, imgpath='', imgar=[]):
     """ Runs a data analysis algorithm on a single image. Returns the FWHM in both transverse dimensions (across the image) as well as the cropped image for
     diagnostic, GIF, or movie purposes.
 
@@ -51,17 +51,17 @@ def single_image_proj(xmargins, ymargins, imgpath='', imgar=[]):
     centx2, centy2 = calc_utils.find_centroid(imgar=finalimg)
     
     # use the projection along the y-axis to find the FWHM value for the beam along the y-axis
-    yFWHM = calc_utils.find_FWHM(calc_utils.find_proj_y(imgar=finalimg))[0]
+    yFWHM = calc_utils.find_FWHM(calc_utils.find_proj_y(imgar=finalimg), range=fwrange)[0]
     
     # use the projection along the x-axis to find the FWHM value for the beam along the x-axis
-    xFWHM = calc_utils.find_FWHM(calc_utils.find_proj_x(imgar=finalimg))[0]
+    xFWHM = calc_utils.find_FWHM(calc_utils.find_proj_x(imgar=finalimg), range=fwrange)[0]
 
     # return the FWHM value for the beam along the x- and y- directions, as well as the final cropped image, which can be used for diagnostic purposes
     return(xFWHM, yFWHM, finalimg)
 
 ########################################################
 
-def single_image_line(xmargins, ymargins, xpixel=0, ypixel=0, toavg=0, imgpath='', imgar=[]):
+def single_image_line(xmargins, ymargins, xpixel=0, ypixel=0, toavg=0, fwrange=1.3, imgpath='', imgar=[]):
     """ Returns the image path or the array of the image based on what the user has input into the function that's calling check_array(). This function shouldn't be
     called by the user at any point.
 
@@ -101,10 +101,10 @@ def single_image_line(xmargins, ymargins, xpixel=0, ypixel=0, toavg=0, imgpath='
         ypixel = centy2
     
     # use the projection along the y-axis to find the FWHM value for the beam along the y-axis
-    yFWHM = calc_utils.find_FWHM(calc_utils.find_line_y(xpixel, toavg=toavg, imgar=finalimg))[0]
+    yFWHM = calc_utils.find_FWHM(calc_utils.find_line_y(xpixel, toavg=toavg, imgar=finalimg), range=fwrange)[0]
     
     # use the projection along the x-axis to find the FWHM value for the beam along the x-axis
-    xFWHM = calc_utils.find_FWHM(calc_utils.find_line_x(ypixel, toavg=toavg, imgar=finalimg))[0]
+    xFWHM = calc_utils.find_FWHM(calc_utils.find_line_x(ypixel, toavg=toavg, imgar=finalimg), range=fwrange)[0]
 
     # return the FWHM value for the beam along the x- and y- directions, as well as the final cropped image, which can be used for diagnostic purposes
     return(xFWHM, yFWHM, finalimg)

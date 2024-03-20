@@ -38,7 +38,7 @@ def check_array(imgpath, imgar):
 
 ########################################################
 
-def find_FWHM(imgdata):
+def find_FWHM(imgdata, range=1.3):
     """ Returns the Full-Width at Half-Maximum of a set of data. This function uses the most prominent peak to find the FWHM.
 
         Parameters
@@ -50,7 +50,7 @@ def find_FWHM(imgdata):
     peakmax = np.max(imgdata)
 
     # use the maximum value (coresponding to the most prominent peak) to find the peak of the curve to find the FWHM of
-    peaks, _ = find_peaks(imgdata, prominence=(peakmax/1.1, peakmax*1.1))
+    peaks, _ = find_peaks(imgdata, prominence=(peakmax/1.3, peakmax*1.3))
 
     # find the width (FWHM) of the most prominent peak
     results_half = peak_widths(imgdata, peaks, rel_height=0.5)

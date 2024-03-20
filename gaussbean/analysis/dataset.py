@@ -18,7 +18,7 @@ from gaussbean.analysis import single
 ### START OF FUNCTIONS
 #########################
 
-def full_set_proj(imglist, xmargins, ymargins):
+def full_set_proj(imglist, xmargins, ymargins, fwrange=1.3):
     """ Returns a list of FWHM values (in microns) for both x- and y-axes as well as all cropped images used for analysis. This function is based on projections of 
     each of the images.
 
@@ -39,7 +39,7 @@ def full_set_proj(imglist, xmargins, ymargins):
     # for loop that cycles through all of the images and finds the FWHM along each axis (using PROJECTIONS)
     for i in imglist:
         # find the FWHM in both transverse dimensions as well as the cropped images used for processing
-        xFWHM, yFWHM, croppedimg = single.single_image_proj(xmargins, ymargins, imgar=np.array(Image.open(i)))
+        xFWHM, yFWHM, croppedimg = single.single_image_proj(xmargins, ymargins, imgar=np.array(Image.open(i)), fwrange=fwrange)
 
         # append everything to their respective empty lists
         croppedimgs.append(croppedimg)
@@ -50,7 +50,7 @@ def full_set_proj(imglist, xmargins, ymargins):
     return(xlist, ylist, croppedimgs)
 
 
-def full_set_line(imglist, xmargins, ymargins, xpixel=0, ypixel=0):
+def full_set_line(imglist, xmargins, ymargins, xpixel=0, ypixel=0, fwrange=1.3):
     """ Returns a list of FWHM values in the x- and y-directions as well as a list of all cropped images used for analysis. This function is based on lineouts 
     either provided by the user or the centroid of the image is used.
 
@@ -75,7 +75,8 @@ def full_set_line(imglist, xmargins, ymargins, xpixel=0, ypixel=0):
     # just run the code in a for loop like normal; if x- and y- pixels are not specified, the code will just automatically use the centroid instead
     for i in imglist:
         # find the FWHM in both transverse dimensions as well as the cropped images used for processing
-        xFWHM, yFWHM, croppedimg = single.single_image_line(xmargins, ymargins, xpixel=xpixel, ypixel=ypixel, imgar=np.array(Image.open(i)))
+        xFWHM, yFWHM, croppedimg = single.single_image_line(xmargins, ymargins, xpixel=xpixel, ypixel=ypixel, imgar=np.array(Image.open(i)),
+                                                            fwrange=fwrange)
 
         # append everything to their respective lists
         croppedimgs.append(croppedimg)
