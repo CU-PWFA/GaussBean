@@ -8,7 +8,8 @@ As mentioned in the (short) description above, this is a *repository* for Gaussi
 
 First of all... THANK YOU FOR THINKING OF CONTRIBUTING. I appreciate any and all of the support. Whether you have new ideas or spot a mistake/bug, either contact me to let me know, or create a pull request to fix it!
 
-## To Do
+### To Do
 
 1.) Finish all documentation
+
 2.) Reupload to PyPi
