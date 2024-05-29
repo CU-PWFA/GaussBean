@@ -12,4 +12,8 @@ First of all... THANK YOU FOR THINKING OF CONTRIBUTING. I appreciate any and all
 
 1.) Finish all documentation
 
-2.) Reupload to PyPi
+2.) Upload an example dataset
+
+3.) Show analysis of the example dataset in example files
+
+4.) Reupload to PyPi
