@@ -26,7 +26,7 @@ def check_array(imgpath, imgar):
         imgpath : string
             The path to the image that the user wants to use.
         imgar : array
-            Array of the image that the user wants to use.
+            The image array that the user wants to use.
     """
     # if the length of the image array is empty (the user didn't want to use an array), we use the image path instead
     if len(imgar) == 0:
@@ -69,7 +69,7 @@ def find_centroid(imgpath='', imgar=[]):
         imgpath (OPTIONAL) : string
             The path to the image that the user wants to use.
         imgar (OPTIONAL) : array
-            Array of the image that the user wants to use.
+            The image array that the user wants to use.
     """
     # set the array of the image to whatever the user specifies (either based on the image path OR an array that the user inputs)
     arrayimg = check_array(imgpath, imgar)
@@ -90,7 +90,7 @@ def find_proj_x(imgpath='', imgar=[]):
         imgpath (OPTIONAL) : string
             The path to the image that the user wants to use.
         imgar (OPTIONAL) : array
-            Array of the image that the user wants to use.
+            The image array that the user wants to use.
     """
     # set the array of the image to whatever the user specifies (either based on the image path OR an array that the user inputs)
     arrayimg = check_array(imgpath, imgar)
@@ -108,7 +108,7 @@ def find_proj_y(imgpath='', imgar=[]):
         imgpath (OPTIONAL) : string
             The path to the image that the user wants to use.
         imgar (OPTIONAL) : array
-            Array of the image that the user wants to use.
+            The image array that the user wants to use.
     """
     # set the array of the image to whatever the user specifies (either based on the image path OR an array that the user inputs)
     arrayimg = check_array(imgpath, imgar)
@@ -132,7 +132,7 @@ def find_line_x(ypixel, toavg=0, imgpath='', imgar=[]):
         imgpath (OPTIONAL) : string
             The path to the image that the user wants to use.
         imgar (OPTIONAL) : array
-            Array of the image that the user wants to use.
+            The image array that the user wants to use.
     """
     # set the array of the image to whatever the user specifies (either based on the image path OR an array that the user inputs)
     arrayimg = check_array(imgpath, imgar)
@@ -163,7 +163,7 @@ def find_line_y(xpixel, toavg=0, imgpath='', imgar=[]):
         imgpath (OPTIONAL) : string
             The path to the image that the user wants to use.
         imgar (OPTIONAL) : array
-            Array of the image that the user wants to use.
+            The image array that the user wants to use.
     """
     # set the array of the image to whatever the user specifies (either based on the image path OR an array that the user inputs)
     arrayimg = check_array(imgpath, imgar)
