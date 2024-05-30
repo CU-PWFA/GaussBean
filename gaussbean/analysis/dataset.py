@@ -19,8 +19,7 @@ from gaussbean.analysis import single
 #########################
 
 def full_set_proj(imglist, xmargins, ymargins, fwrange=1.3):
-    """ Returns a list of FWHM values (in microns) for both x- and y-axes as well as all cropped images used for analysis. This function is based on projections of 
-    each of the images.
+    """ Returns a list of FWHM values (in microns) for both x- and y-axes as well as all cropped images used for analysis. This function is based on projections on each axis of the images.
 
         Parameters
         ----------
@@ -51,8 +50,9 @@ def full_set_proj(imglist, xmargins, ymargins, fwrange=1.3):
 
 
 def full_set_line(imglist, xmargins, ymargins, xpixel=0, ypixel=0, fwrange=1.3):
-    """ Returns a list of FWHM values in the x- and y-directions as well as a list of all cropped images used for analysis. This function is based on lineouts 
-    either provided by the user or the centroid of the image is used.
+    """ Returns a list of FWHM values in the x- and y-directions as well as a list of all cropped images used for analysis. This function is based on the lineouts specified by the 
+    user or through the centroid of the image.
+
 
         Parameters
         __________
@@ -61,7 +61,7 @@ def full_set_line(imglist, xmargins, ymargins, xpixel=0, ypixel=0, fwrange=1.3):
         xmargins : integer
             How many pixels on each side of the beam (in the x-direction, relative to the centroid of the image) to be used as a buffer for cropping.
         ymargins : integer
-            How many pixels on each side of the bean (in the y-direction, relative to the centroid of the image) to be used as a buffer for cropping.
+            How many pixels on each side of the beam (in the y-direction, relative to the centroid of the image) to be used as a buffer for cropping.
         xpixel (OPTIONAL) : integer
             The column of pixels at which a y-lineout will be taken.
         ypixel (OPTIONAL) : integer
@@ -72,7 +72,7 @@ def full_set_line(imglist, xmargins, ymargins, xpixel=0, ypixel=0, fwrange=1.3):
     ylist = []
     croppedimgs = []
 
-    # just run the code in a for loop like normal; if x- and y- pixels are not specified, the code will just automatically use the centroid instead
+    # just run the code in a for loop like normal; if x- and y- pixels are not specified, the code in the single image function will just automatically use the centroid instead
     for i in imglist:
         # find the FWHM in both transverse dimensions as well as the cropped images used for processing
         xFWHM, yFWHM, croppedimg = single.single_image_line(xmargins, ymargins, xpixel=xpixel, ypixel=ypixel, imgar=np.array(Image.open(i)),

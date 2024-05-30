@@ -21,8 +21,8 @@ from gaussbean.utils import pre_utils, calc_utils
 #########################
 
 def single_image_proj(xmargins, ymargins, fwrange=1.3, imgpath='', imgar=[]):
-    """ Runs a data analysis algorithm on a single image. Returns the FWHM in both transverse dimensions (across the image) as well as the cropped image for
-    diagnostic, GIF, or movie purposes.
+    """ Runs a data analysis algorithm on a single image. Returns the FWHM in both transverse dimensions as well as the cropped image for
+    diagnostics, GIF, or movie purposes. This function is based on the projections on each axis of the image.
 
         Parameters
         ----------
@@ -31,9 +31,9 @@ def single_image_proj(xmargins, ymargins, fwrange=1.3, imgpath='', imgar=[]):
         ymargins : integer
             A number (in pixels) of how far in the y-direction, on either side of the cropping point, the user wants the image to be cropped.
         imgpath (OPTIONAL) : string
-            The path to the image that the user wants to run through the median filter.
+            The path to the image that the user wants to run through the data analysis algorithm.
         imgar (OPTIONAL) : array
-            Rather than a path to the image, one can also use the array of the image.
+            The image array that the user wants to run through the data analysis algorithm.
     """
     # set the array of the image to whatever the user specifies (either based on the image path OR an array that the user inputs)
     arrayimg = calc_utils.check_array(imgpath, imgar)
@@ -41,13 +41,13 @@ def single_image_proj(xmargins, ymargins, fwrange=1.3, imgpath='', imgar=[]):
     # crop out as many dead pixels as possible (as long as the feature is SOMEWHAT in the middle of the image, this should be fine)
     initialcrop = pre_utils.crop_image(1212, 1012, 1000, 988, imgar=arrayimg)
 
-    # find the centroid of the image with as many of the large dead pixels cropped out as possible
+    # make a general guess as to where the centroid of the image is
     centx, centy = calc_utils.find_centroid(imgar=initialcrop)
 
-    # crop the image for the final time. This is the image that will be used in the rest of the analysis process
+    # crop the image around the centroid guess. This is the image that will be used in the rest of the analysis process
     finalimg = pre_utils.crop_image(centx, centy, xmargins, ymargins, imgar=initialcrop)
 
-    # find the centroid AGAIN, but more accurately, so we can get a really nicely cropped image
+    # find the centroid AGAIN, but more accurately, so we can get as accurate a measurement of the FWHM as possible
     centx2, centy2 = calc_utils.find_centroid(imgar=finalimg)
     
     # use the projection along the y-axis to find the FWHM value for the beam along the y-axis
@@ -63,7 +63,7 @@ def single_image_proj(xmargins, ymargins, fwrange=1.3, imgpath='', imgar=[]):
 
 def single_image_line(xmargins, ymargins, xpixel=0, ypixel=0, toavg=0, fwrange=1.3, imgpath='', imgar=[]):
     """ Returns the image path or the array of the image based on what the user has input into the function that's calling check_array(). This function shouldn't be
-    called by the user at any point.
+    called by the user at any point. This function is based on the lineouts specified by the user or through the centroid of the image.
 
         Parameters
         ----------
@@ -76,9 +76,9 @@ def single_image_line(xmargins, ymargins, xpixel=0, ypixel=0, toavg=0, fwrange=1
         ypixel (OPTIONAL) : integer
             Specifies at which ROW the user wants to take the lineout along the image in pixels.
         imgpath (OPTIONAL) : string
-            The path to the image that the user wants to run through the median filter.
+            The path to the image that the user wants to run through the analysis algorithm.
         imgar (OPTIONAL) : array
-            Array of the image if the user wants to input an array into the function rather than just an image path.
+            The image array that the user wants to run through the data analysis algorithm.
     """
     # set the array of the image to whatever the user specifies (either based on the image path OR an array that the user inputs)
     arrayimg = calc_utils.check_array(imgpath, imgar)
@@ -86,13 +86,13 @@ def single_image_line(xmargins, ymargins, xpixel=0, ypixel=0, toavg=0, fwrange=1
     # crop out as many dead pixels as possible (as long as the feature is SOMEWHAT in the middle of the image, this should be fine)
     initialcrop = pre_utils.crop_image(1212, 1012, 1000, 988, imgar=arrayimg)
 
-    # find the centroid of the image with as many of the large dead pixels cropped out as possible
+    # make a general guess as to where the centroid of the image is
     centx, centy = calc_utils.find_centroid(imgar=initialcrop)
 
-    # crop the image for the final time. This is the image that will be used in the rest of the analysis process
+    # crop the image around the centroid guess. This is the image that will be used in the rest of the analysis process
     finalimg = pre_utils.crop_image(centx, centy, xmargins, ymargins, imgar=initialcrop)
 
-    # find the centroid AGAIN, but more accurately, so we can get a really nicely cropped image
+    # find the centroid AGAIN, but more accurately, so we can get as accurate a measurement of the FWHM as possible
     centx2, centy2 = calc_utils.find_centroid(imgar=finalimg)
 
     # if statement to see if the user wants to use their own selected lineouts, or if they want to use the centroid
@@ -100,10 +100,10 @@ def single_image_line(xmargins, ymargins, xpixel=0, ypixel=0, toavg=0, fwrange=1
         xpixel = centx2
         ypixel = centy2
     
-    # use the projection along the y-axis to find the FWHM value for the beam along the y-axis
+    # use the lineout along the y-axis to find the FWHM value for the beam along the y-axis
     yFWHM = calc_utils.find_FWHM(calc_utils.find_line_y(xpixel, toavg=toavg, imgar=finalimg), range=fwrange)[0]
     
-    # use the projection along the x-axis to find the FWHM value for the beam along the x-axis
+    # use the lineout along the x-axis to find the FWHM value for the beam along the x-axis
     xFWHM = calc_utils.find_FWHM(calc_utils.find_line_x(ypixel, toavg=toavg, imgar=finalimg), range=fwrange)[0]
 
     # return the FWHM value for the beam along the x- and y- directions, as well as the final cropped image, which can be used for diagnostic purposes

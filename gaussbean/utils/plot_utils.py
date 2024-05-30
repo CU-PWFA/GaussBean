@@ -56,18 +56,18 @@ def plot_beforeandafter(before, after, label='', clmap='plasma', fontsize=15):
 ########################################################
 
 def plot_median(mediansize, repeatamount=0, imgpath='', imgar=[], clmap='plasma', fontsize=15):
-    """ Returns a plot of the image before and after it has been run through the median filter a specified number of times.
+    """ Returns a plot of the image before and after it has been run through a median filter a specified number of times.
 
         Parameters
         ----------
         mediansize : integer
-            The size of the median filter in pixels (generally want this to be small; from 2-10 pixels).
+            The size of the median filter in pixels (generally want this to be small; from 3-10 pixels).
         repeatamount (OPTIONAL) : integer
             The times the user wants the filter to be run over the image.
         imgpath (OPTIONAL) : string
             The path to the image that the user wants to run through the median filter.
         imgar (OPTIONAL) : array
-            Rather than a file path, if one wants to use an array to represent the image instead, it's possible.
+            The image array that the user wants to run through the median filter.
         clmap (OPTIONAL) : string
             The colormap that the user wants to use for the plots. This MUST be a colormap given by the matplotlib package.
         fontsize (OPTIONAL) : integer
@@ -80,7 +80,7 @@ def plot_median(mediansize, repeatamount=0, imgpath='', imgar=[], clmap='plasma'
     before = arrayimg
     after = pre_utils.thru_median(mediansize, repeatamount=repeatamount, imgar=arrayimg)
 
-    # plot before and after
+    # plot the image before and after being run through the median filter
     plot_beforeandafter(before, after, label='Median Filter', clmap=clmap, fontsize=fontsize)
 
 ########################################################
@@ -93,9 +93,9 @@ def plot_lowpass(radius, imgpath='', imgar=[], clmap='plasma', fontsize=15):
         radius : integer
             The radius of the mask used for the low-pass filter in pixels.
         imgpath (OPTIONAL) : string
-            The path to the image that the user wants to run through the median filter.
+            The path to the image that the user wants to run through the low-pass filter.
         imgar (OPTIONAL) : array
-            Rather than a file path, if one wants to use an array to represent the image instead, it's possible.
+            The image array that the user wants to run through the low-pass filter.
         clmap (OPTIONAL) : string
             The colormap that the user wants to use for the plots. This MUST be a colormap given by the matplotlib package.
         fontsize (OPTIONAL) : integer
@@ -108,7 +108,7 @@ def plot_lowpass(radius, imgpath='', imgar=[], clmap='plasma', fontsize=15):
     before = arrayimg
     after = pre_utils.thru_lowpass(radius, imgar=arrayimg)
 
-    # plot before and after
+    # plot the image before and after being run through the low-pass filter
     plot_beforeandafter(before, after, label='Low-Pass Filter', clmap=clmap, fontsize=fontsize)
 
 ########################################################
@@ -119,15 +119,15 @@ def plot_medandlow(mediansize, radius, repeatamount=0, imgpath='', imgar=[], clm
         Parameters
         ----------
         mediansize : integer
-            The size of the median filter in pixels (generally want this to be small; from 2-10 pixels).
+            The size of the median filter in pixels (generally want this to be small; from 3-10 pixels).
         radius : integer
             The radius of the mask used for the low-pass filter in pixels.
         repeatamount (OPTIONAL) : integer
             The times the user wants the MEDIAN filter to be run over the image.
         imgpath (OPTIONAL) : string
-            The path to the image that the user wants to run through the median filter.
+            The path to the image that the user wants to run through the filters.
         imgar (OPTIONAL) : array
-            Rather than an image path, one can opt to use an array of the image instead.
+            The image array that the user wants to run through the filters.
         clmap (OPTIONAL) : string
             The colormap that the user wants to use for the plots. This MUST be a colormap given by the matplotlib package.
         fontsize (OPTIONAL) : integer
@@ -178,32 +178,32 @@ def plot_cropped(xpoint, ypoint, xmargins, ymargins, imgpath='', imgar=[], clmap
         ymargins : integer
             A number (in pixels) of how far in the y-direction, on either side of the cropping point, the user wants the image to be cropped.
         imgpath (OPTIONAL) : string
-            The path to the image that the user wants to run through the median filter.
+            The path to the image that the user wants to crop.
         imgar (OPTIONAL) : array
-            Array of the image if the user wants to input an array into the function rather than just an image path.
+            The image array that the user wants to crop.
     """
-    # get the array of the image before and after background subtraction
+    # get the array of the image before and after being cropped
     before = calc_utils.check_array(imgpath, imgar)
     after = pre_utils.crop_image(xpoint, ypoint, xmargins, ymargins, imgar=before)
     
-    # plot before and after doing background subtraction
+    # plot the image before and after being cropped
     plot_beforeandafter(before=before, after=after, label='Cropping', clmap=clmap, fontsize=fontsize)
 
 ########################################################
 
 def back_sub_plot(origpath='', backpath='', origimgar=[], backimgar=[], clmap='plasma', fontsize=15):
-    """ Returns a plot of the image BEFORE and AFTER background subtraction.
+    """ Returns a plot of the image before and after background subtraction.
 
         Parameters
         ----------
         origpath (OPTIONAL) : string
             The path of the original image to be used (the image before background subtraction).
         backpath (OPTIONAL) : string
-            The path of the background image to be subtracted from the original image (this should be a blank image).
+            The path of the background image to be subtracted from the original image.
         origimgar (OPTIONAL) : array
-            Rather than an image path, one can opt to use an array instead. This is the array of the original image to be used (before background subtraction).
+            Rather than an image path, one can use an array instead. This is the array of the original image to be used (before background subtraction).
         backimgar (OPTIONAL) : array
-            Rather than an image path, one can opt to use an array instead. This is the array of the background image to be used (a blank image).
+            Rather than an image path, one can use an array instead. This is the array of the image to be subtracted from the original image.
         clmap (OPTIONAL) : string
             The colormap that the user wants to use for the plots. This MUST be a colormap given by the matplotlib package.
         fontsize (OPTIONAL) : integer
@@ -214,7 +214,7 @@ def back_sub_plot(origpath='', backpath='', origimgar=[], backimgar=[], clmap='p
     backimg = calc_utils.check_array(backpath, backimgar)
     after = pre_utils.back_subtract(origimgar=before, backimgar=backimg)
     
-    # plot before and after doing background subtraction
+    # plot the image before and after doing background subtraction
     plot_beforeandafter(before, after, label='Back-Sub', clmap=clmap, fontsize=fontsize)
 
 ########################################################
@@ -225,9 +225,9 @@ def plot_intensity_proj(imgpath='', imgar=[], clmap='plasma', fontsize=15):
         Parameters
         ----------
         imgpath (OPTIONAL) : string
-            The path to the image that the user wants to run through the median filter.
+            The path to the image that the user wants to use.
         imgar (OPTIONAL) : array
-            Rather than a path, if the user wants to use an array for the image instead, it's possible.
+            The image array that the user wants to use.
     """
     # set the array of the image to whatever the user specifies (either based on the image path OR an array that the user inputs)
     arrayimg = calc_utils.check_array(imgpath, imgar)
@@ -250,7 +250,7 @@ def plot_intensity_proj(imgpath='', imgar=[], clmap='plasma', fontsize=15):
     right_ax.yaxis.set_tick_params(labelleft=False)
     right_ax.tick_params(labelrotation=-90)
 
-    # give labels to all of the necessary axes and plots themselves (might have to play with the arangement of the right plot's title)
+    # give labels to all of the necessary axes and plots themselves
     main_ax.set_xlabel('x pixels', fontsize=fontsize)
     main_ax.set_ylabel('y pixels', fontsize=fontsize)
     top_ax.set_title('Intensity Profile (Projection) of Pixel Columns', fontsize=fontsize)
@@ -259,11 +259,11 @@ def plot_intensity_proj(imgpath='', imgar=[], clmap='plasma', fontsize=15):
     # show the image as the main plot
     main_ax.imshow(arrayimg, cmap=clmap, extent=[0, imwidth, imheight, 0])
 
-    # calculates the sum of the intensity values of all the pixels in every row and column
+    # calculate the sum of the intensity values of all the pixels in every row and column
     cols = calc_utils.find_proj_x(imgar=arrayimg)
     rows = calc_utils.find_proj_y(imgar=arrayimg)
 
-    # plots the right and top graphs with certain colors. If you want a different color, just change the 'color' input below
+    # plot the right and top graphs with certain colors
     v_prof, = right_ax.plot(rows, positionsy, color='black')
     h_prof, = top_ax.plot(cols, color='black')
 
@@ -283,12 +283,12 @@ def plot_intensity_line(xpixel, ypixel, toavg=0, imgpath='', imgar=[], clmap='pl
         ypixel : integer
             Specifies the pixel at which the X LINEOUT will be taken (for example, you want an x lineout, a straight line, you pick a y value, like y=0)
         toavg (OPTIONAL) : integer
-            Specifies the number of pixels on EACH SIDE of the original pixel lineout the user wants to average with (so, center lineout, plus two lineouts on
-            either side if "toavg" is set equal to 2).
+            Specifies the number of lineouts on EACH SIDE of the original lineout the user wants to create a projection with (so, if "toavg" is equal to 2, for example, one would have the center lineout, plus 
+            two lineouts on either side).
         imgpath (OPTIONAL) : string
-            The path to the image that the user wants to run through the median filter.
+            The path to the image that the user wants to use.
         imgar (OPTIONAL) : array
-            Rather than a path, if the user wants to use an array for the image instead, it's possible.
+            The image array that the user wants to use.
     """
     # set the array of the image to whatever the user specifies (either based on the image path OR an array that the user inputs)
     arrayimg = calc_utils.check_array(imgpath, imgar)
@@ -311,7 +311,7 @@ def plot_intensity_line(xpixel, ypixel, toavg=0, imgpath='', imgar=[], clmap='pl
     right_ax.yaxis.set_tick_params(labelleft=False)
     right_ax.tick_params(labelrotation=-90)
 
-    # give labels to all of the necessary axes and plots themselves (might have to play with the arangement of the right plot's title)
+    # give labels to all of the necessary axes and plots themselves
     main_ax.set_xlabel('x pixels', fontsize=fontsize)
     main_ax.set_ylabel('y pixels', fontsize=fontsize)
     top_ax.set_title('Intensity Profile (Projection) of Pixel Columns', fontsize=fontsize)
@@ -319,17 +319,17 @@ def plot_intensity_line(xpixel, ypixel, toavg=0, imgpath='', imgar=[], clmap='pl
 
     # show the image as the main plot
     main_ax.imshow(arrayimg, cmap=clmap, extent=[0, imwidth, imheight, 0])
-
-    # calculates the sum of the intensity values of all the pixels in every row and column
+    
+    # find the lineouts for each axis based on the locations the user specified
     cols = calc_utils.find_line_x(ypixel, toavg=toavg, imgar=arrayimg)
     rows = calc_utils.find_line_y(xpixel, toavg=toavg, imgar=arrayimg)
 
-    # plot the lineouts for nice visualization
+    # plot the lineouts in yellow for nice visualization
     main_ax.plot(np.repeat(xpixel, len(arrayimg)), np.linspace(0, len(arrayimg), len(arrayimg)), color='y')
     main_ax.plot(np.linspace(0, len(arrayimg[0]), len(arrayimg[0])), np.repeat(ypixel, len(arrayimg[0])), color='y')
     main_ax.plot(xpixel, ypixel, '.', c='r')
 
-    # plots the right and top graphs with certain colors. If you want a different color, just change the 'color' input below
+    # plot the right and top graphs with certain colors
     v_prof, = right_ax.plot(rows, positionsy, color='black')
     h_prof, = top_ax.plot(cols, color='black')
 

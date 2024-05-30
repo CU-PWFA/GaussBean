@@ -27,13 +27,13 @@ def thru_median(mediansize, repeatamount=0, imgpath='', imgar=[]):
         Parameters
         ----------
         mediansize : integer
-            The size of the median filter in pixels (generally want this to be small; from 2-10 pixels).
+            The size of the median filter in pixels (generally want this to be small; from 3-10 pixels).
         repeatamount (OPTIONAL) : integer
             The number of times the user wants to run the image through the median filter. Default is to run over the image only once.
         imgpath (OPTIONAL) : string
             The path to the image that the user wants to run through the median filter.
         imgar (OPTIONAL) : array
-            Array of the image if the user wants to input an array into the function rather than just an image path.
+            The image array that the user wants to run through the median filter.
     """
     # set the array of the image to whatever the user specifies (either based on the image path OR an array that the user inputs)
     arrayimg = calc_utils.check_array(imgpath, imgar)
@@ -41,7 +41,7 @@ def thru_median(mediansize, repeatamount=0, imgpath='', imgar=[]):
     # create an array for the median filter images and append to this array when a change to the image is made
     result = [ndimage.median_filter(np.array(arrayimg), size=mediansize)]
 
-    # for loop to repeat the number of times the median filter is run over the image
+    # for loop to repeat the specified number of times the user wants the median filter to be run over the image
     for i in range(2, repeatamount+1):
         result.append(ndimage.median_filter(result[i-2], size=mediansize))
 
@@ -58,20 +58,20 @@ def thru_lowpass(radius, imgpath='', imgar=[]):
         radius : integer
             The radius of the mask used for the low-pass filter in pixels.
         imgpath (OPTIONAL) : string
-            The path to the image that the user wants to run through the median filter.
+            The path to the image that the user wants to run through the low-pass filter.
         arimg (OPTIONAL) : array
-            Array of the image if the user wants to input an array into the function rather than just an image path.
+            The image array that the user wants to run through the low-pass filter.
     """
     # set the array of the image to whatever the user specifies (either based on the image path OR an array that the user inputs)
     arrayimg = calc_utils.check_array(imgpath, imgar)
     
-    # perform the fourier transform and save the complex output
+    # perform a fourier transform and save the complex output
     ft = np.fft.fft2(arrayimg, axes=(0,1))
 
     # shift the origin to the center of the image
     ft_shift = np.fft.fftshift(ft)
 
-    # create circular mask using size specified in the cell above
+    # create a circular mask using size specified in the cell above
     mask = np.zeros_like(arrayimg) # --> returns an array of zeros the same shape as the image
     cy = mask.shape[0] // 2
     cx = mask.shape[1] // 2
@@ -105,11 +105,11 @@ def back_subtract(origpath='', backpath='', origimgar=[], backimgar=[]):
         origpath (OPTIONAL) : string
             The path of the original image to be used (the image before background subtraction).
         backpath (OPTIONAL) : string
-            The path of the background image to be subtracted from the original image (this should be a blank image).
+            The path of the background image to be subtracted from the original image.
         origimgar (OPTIONAL) : array
-            Rather than an image path, one can opt to use an array instead. This is the array of the original image to be used (before background subtraction).
+            Rather than an image path, one can opt to use an array instead. This is the array of the original image to be used (the image before background subtraction).
         backimgar (OPTIONAL) : array
-            Rather than an image path, one can opt to use an array instead. This is the array of the background image to be used (a blank image).
+            Rather than an image path, one can opt to use an array instead. This is the array of the background image to be subtracted from the original image.
     """
     # set the array of the original image to whatever the user specifies (either based on the image path OR an array that the user inputs)
     origimg = calc_utils.check_array(origpath, origimgar)
@@ -136,9 +136,9 @@ def crop_image(xpoint, ypoint, xmargins, ymargins, imgpath='', imgar=[]):
         ymargins : integer
             A number (in pixels) of how far in the y-direction, on either side of the cropping point, the user wants the image to be cropped.
         imgpath (OPTIONAL) : string
-            The path to the image that the user wants to run through the median filter.
+            The path to the image that the user wants to be cropped.
         imgar (OPTIONAL) : array
-            Array of the image if the user wants to input an array into the function rather than just an image path.
+            The image array that the user wants to be cropped.
     """
     # set the array of the original image to whatever the user specifies (either based on the image path OR an array that the user inputs)
     arrayimg = calc_utils.check_array(imgpath, imgar)
